@@ -36,9 +36,12 @@ flutter:
     - assets/images/onboarding/
 
 flutter_native_splash:
-  color: "#FFFFFF" # or whatever your background is
-  image: assets/logo/splash_logo.png # <-- this is the important line
+  color: "#FFFFFF"
+  image: assets/logo/splash_logo.png
+  color_dark: "#111827"
+  image_dark: assets/logo/logo_dark_splash.png
   android: true
   ios: true
+  web: false
   fullscreen: true
 

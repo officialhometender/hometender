@@ -118,8 +118,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final forgotPasswordColor =
         isDarkMode ? AppColors.jasmine500 : AppColors.primary600;
     final signUpColor = isDarkMode ? AppColors.guppie400 : AppColors.primary600;
+
+    // Choose button style for each theme
     final buttonVariant =
         isDarkMode ? ButtonVariant.secondary : ButtonVariant.primary;
+
+    // For dark mode, we need to customize the text style to ensure black text
+    final buttonTextStyle = isDarkMode
+        ? const TextStyle(
+            color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold)
+        : null; // Use default style for light mode
 
     // Watch state from providers
     final isLoading = ref.watch(isLoadingProvider);
@@ -149,7 +157,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: titleColor, // Using theme-aware color
                     ),
 
-                    const SizedBox(height: 15),
+                    AppSpacing.verticalXL(),
 
                     // Email field with custom error handling
                     AppTextField(
@@ -175,7 +183,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       },
                     ),
 
-                    const AppSpacing.formField(),
+                    AppSpacing.verticalXL(),
 
                     // Password field with custom error handling
                     AppTextField(
@@ -249,45 +257,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ],
                     ),
 
-                    // Push the login button to the bottom
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                    AppSpacing.verticalXL(),
 
-                    // Login button with custom style to ensure text visibility
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isDarkMode
-                              ? AppColors.guppie500
-                              : AppColors.primary600,
-                          foregroundColor:
-                              isDarkMode ? Colors.black : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: isLoading ? null : _handleLogin,
-                        child: isLoading
-                            ? SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  color:
-                                      isDarkMode ? Colors.black : Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      isDarkMode ? Colors.black : Colors.white,
-                                ),
-                              ),
-                      ),
+                    // Login button using component
+                    AppButton(
+                      text: 'Sign In',
+                      onPressed: isLoading ? null : _handleLogin,
+                      isLoading: isLoading,
+                      variant: buttonVariant,
+                      size: ButtonSize.large,
+                      textStyle:
+                          buttonTextStyle, // Apply custom text style for dark mode
                     ),
 
                     const SizedBox(height: 16),
