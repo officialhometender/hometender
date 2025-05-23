@@ -1,6 +1,6 @@
 // lib/app.dart
 import 'package:flutter/material.dart';
-import 'package:home_tender/screens/home.dart';
+import 'package:home_tender/screens/onboarding/onboarding.dart';
 
 import 'theme/app_theme.dart';
 
@@ -19,8 +19,8 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       // Follows system setting
 
-      // Home screen
-      home: const Home(),
+      // Start with welcome screen instead of home
+      home: const WelcomeScreen(),
 
       // Additional app configuration
       builder: (context, child) {
