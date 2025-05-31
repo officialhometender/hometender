@@ -10,7 +10,7 @@ import '../../utilities/components/ht_text.dart';
 import '../../utilities/router/app_router.dart';
 
 class UserTypeScreen extends ConsumerWidget {
-  const UserTypeScreen({Key? key}) : super(key: key);
+  const UserTypeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -210,12 +210,12 @@ class UserTypeScreen extends ConsumerWidget {
 
                   // Next button
                   HTButton.primary(
+                    size: ButtonSize.large,
                     label: 'Next',
                     onPressed: selectedUserType == null
                         ? null // Disable if no user type is selected
                         : () => context.go('/onboarding/features'),
                     isFullWidth: true,
-                    trailingIcon: Icons.arrow_forward,
                   ),
                 ],
               ),

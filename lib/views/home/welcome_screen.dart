@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:home_tender/utilities/theme/app_color.dart';
 
 import '../../utilities/components/ht_buttons.dart';
 import '../../utilities/components/ht_spacing.dart';
@@ -39,31 +38,14 @@ class WelcomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Logo
-                    Container(
-                      width: 180,
-                      height: 180,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.surfaceDark
-                            : AppColors.aliceBlue,
-                        shape: BoxShape.circle,
+                    Center(
+                      child: Image.asset(
+                        isDarkMode
+                            ? 'assets/logo/logo-dark.png'
+                            : 'assets/logo/logo-light.png',
+                        height: 90,
+                        width: 90,
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.home_rounded,
-                          size: 100,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ),
-
-                    HTSpacing.verticalXL,
-
-                    // App name
-                    HTText.displayMedium(
-                      '🏡 HomeTender',
-                      textAlign: TextAlign.center,
-                      fontWeight: FontWeight.bold,
                     ),
 
                     HTSpacing.verticalMD,
@@ -112,10 +94,10 @@ class WelcomeScreen extends StatelessWidget {
 
                   // Next button
                   HTButton.primary(
+                    size: ButtonSize.large,
                     label: 'Next',
                     onPressed: () => context.go('/onboarding/user-type'),
                     isFullWidth: true,
-                    trailingIcon: Icons.arrow_forward,
                   ),
                 ],
               ),

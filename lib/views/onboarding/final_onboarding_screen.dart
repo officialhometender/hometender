@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:home_tender/utilities/router/app_router.dart';
-import 'package:home_tender/utilities/theme/app_color.dart';
 
 import '../../utilities/components/ht_buttons.dart';
 import '../../utilities/components/ht_spacing.dart';
@@ -24,20 +23,13 @@ class FinalScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Logo with background
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color:
-                      isDarkMode ? AppColors.surfaceDark : AppColors.aliceBlue,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.home_rounded,
-                    size: 64,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+              Center(
+                child: Image.asset(
+                  isDarkMode
+                      ? 'assets/logo/logo-dark.png'
+                      : 'assets/logo/logo-light.png',
+                  height: 80,
+                  width: 80,
                 ),
               ),
 
@@ -80,6 +72,7 @@ class FinalScreen extends ConsumerWidget {
 
               // Login button
               HTButton.outline(
+                size: ButtonSize.large,
                 label: 'Already have an account? Login',
                 onPressed: () {
                   // Mark onboarding as completed

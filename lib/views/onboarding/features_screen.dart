@@ -92,10 +92,10 @@ class FeaturesScreen extends ConsumerWidget {
 
                   // Next button
                   HTButton.primary(
+                    size: ButtonSize.large,
                     label: 'Get Started',
                     onPressed: () => context.go('/onboarding/final'),
                     isFullWidth: true,
-                    trailingIcon: Icons.arrow_forward,
                   ),
                 ],
               ),

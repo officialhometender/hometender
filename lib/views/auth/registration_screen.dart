@@ -91,196 +91,202 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     // Get the worker type if user is a worker
     final workerType = ref.watch(workerTypeProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: HTText.titleLarge('Create Account'),
-        centerTitle: true,
-        actions: [
-          TextButton(
-            onPressed: () => context.go('/login'),
-            child: HTText.titleSmall('Sign In',
-                color: Theme.of(context).colorScheme.primary),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              // User type selection
-              if (userType == null) ...[
-                _buildUserTypeSelection(context),
-              ] else ...[
-                // Basic information section
-                HTCard(
-                  variant: CardVariant.filled,
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HTText.titleMedium('Basic Information'),
-                      HTSpacing.verticalMD,
-                      HTTextField(
-                        label: 'Full Name',
-                        hint: 'Enter your full name',
-                        controller: _fullNameController,
-                        textInputAction: TextInputAction.next,
-                        textCapitalization: TextCapitalization.words,
-                        prefixIcon: Icons.person_outline,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
-                          }
-                          return null;
-                        },
-                      ),
-                      HTSpacing.verticalMD,
-                      HTTextField.email(
-                        controller: _emailController,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      HTSpacing.verticalMD,
-                      HTTextField.phone(
-                        controller: _phoneController,
-                        textInputAction: TextInputAction.next,
-                      ),
-                      HTSpacing.verticalMD,
-                      HTTextField(
-                        label: 'Password',
-                        hint: 'Enter your password',
-                        controller: _passwordController,
-                        textInputAction: TextInputAction.next,
-                        prefixIcon: Icons.lock_outline,
-                        suffixIcon: _showPassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        onSuffixIconTap: () {
-                          setState(() {
-                            _showPassword = !_showPassword;
-                          });
-                        },
-                        obscureText: !_showPassword,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a password';
-                          }
-                          if (value.length < 6) {
-                            return 'Password must be at least 6 characters';
-                          }
-                          return null;
-                        },
-                      ),
-                      HTSpacing.verticalMD,
-                      HTTextField(
-                        label: 'Address',
-                        hint: 'Enter your address',
-                        controller: _addressController,
-                        textInputAction: TextInputAction.next,
-                        prefixIcon: Icons.location_on_outlined,
-                        maxLines: 2,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your address';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-
-                HTSpacing.verticalMD,
-
-                // User-specific section
-                if (userType == UserType.family) ...[
-                  _buildFamilySection(),
-                ] else if (userType == UserType.worker) ...[
-                  _buildWorkerTypeSelection(workerType),
-                  HTSpacing.verticalMD,
-                  if (workerType != null)
-                    _buildWorkerDetailsSection(workerType),
-                ],
-
-                HTSpacing.verticalMD,
-
-                // Terms and conditions
-                HTCard(
-                  variant: CardVariant.outlined,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HTText.titleMedium('Terms of Service'),
-                      HTSpacing.verticalSM,
-                      HTText.bodySmall(
-                        'By creating an account, you agree to HomeTender\'s Terms of Service, Privacy Policy, and Non-Poaching Agreement.',
-                      ),
-                      HTSpacing.verticalSM,
-                      HTText.bodySmall(
-                        userType == UserType.family
-                            ? '• You will be charged only for services rendered\n'
-                                '• Minimum booking is 4 hours\n'
-                                '• You agree not to hire workers outside the platform\n'
-                                '• Cancellation policy applies for bookings'
-                            : '• You will receive payments through the app\n'
-                                '• A service fee of 10-15% applies to each booking\n'
-                                '• You agree not to work directly with clients\n'
-                                '• You must attend required training sessions',
-                      ),
-                      HTSpacing.verticalMD,
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: _acceptedTerms,
-                            onChanged: (value) {
-                              setState(() {
-                                _acceptedTerms = value ?? false;
-                              });
-                            },
-                          ),
-                          Expanded(
-                            child: HTText.bodyMedium(
-                              'I agree to the Terms of Service, Privacy Policy, and Non-Poaching Agreement',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                HTSpacing.verticalLG,
-
-                // Submit button
-                HTButton.primary(
-                  label: 'Create Account',
-                  isFullWidth: true,
-                  isLoading: _isLoading,
-                  onPressed: _acceptedTerms ? _handleRegistration : null,
-                ),
-
-                HTSpacing.verticalMD,
-
-                // Switch user type button
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      // Clear form and reset user type
-                      _formKey.currentState?.reset();
-                      ref.read(userTypeProvider.notifier).state = null;
-                      ref.read(workerTypeProvider.notifier).state = null;
-                    },
-                    child: HTText.bodyMedium(
-                      'Change account type',
-                      color: Theme.of(context).colorScheme.primary,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: HTText.titleLarge('Create Account'),
+          centerTitle: true,
+          actions: [
+            TextButton(
+              onPressed: () => context.go('/login'),
+              child: HTText.titleSmall('Sign In',
+                  color: Theme.of(context).colorScheme.primary),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                // User type selection
+                if (userType == null) ...[
+                  _buildUserTypeSelection(context),
+                ] else ...[
+                  // Basic information section
+                  HTCard(
+                    variant: CardVariant.filled,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HTText.titleMedium('Basic Information'),
+                        HTSpacing.verticalMD,
+                        HTTextField(
+                          label: 'Full Name',
+                          hint: 'Enter your full name',
+                          controller: _fullNameController,
+                          textInputAction: TextInputAction.next,
+                          textCapitalization: TextCapitalization.words,
+                          prefixIcon: Icons.person_outline,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                        ),
+                        HTSpacing.verticalMD,
+                        HTTextField.email(
+                          controller: _emailController,
+                          textInputAction: TextInputAction.next,
+                        ),
+                        HTSpacing.verticalMD,
+                        HTTextField.phone(
+                          controller: _phoneController,
+                          textInputAction: TextInputAction.next,
+                        ),
+                        HTSpacing.verticalMD,
+                        HTTextField(
+                          label: 'Password',
+                          hint: 'Enter your password',
+                          controller: _passwordController,
+                          textInputAction: TextInputAction.next,
+                          prefixIcon: Icons.lock_outline,
+                          suffixIcon: _showPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          onSuffixIconTap: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                          obscureText: !_showPassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        HTSpacing.verticalMD,
+                        HTTextField(
+                          label: 'Address',
+                          hint: 'Enter your address',
+                          controller: _addressController,
+                          textInputAction: TextInputAction.next,
+                          prefixIcon: Icons.location_on_outlined,
+                          maxLines: 2,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your address';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                ),
 
-                HTSpacing.verticalMD,
+                  HTSpacing.verticalMD,
+
+                  // User-specific section
+                  if (userType == UserType.family) ...[
+                    _buildFamilySection(),
+                  ] else if (userType == UserType.worker) ...[
+                    _buildWorkerTypeSelection(workerType),
+                    HTSpacing.verticalMD,
+                    if (workerType != null)
+                      _buildWorkerDetailsSection(workerType),
+                  ],
+
+                  HTSpacing.verticalMD,
+
+                  // Terms and conditions
+                  HTCard(
+                    variant: CardVariant.outlined,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HTText.titleMedium('Terms of Service'),
+                        HTSpacing.verticalSM,
+                        HTText.bodySmall(
+                          'By creating an account, you agree to HomeTender\'s Terms of Service, Privacy Policy, and Non-Poaching Agreement.',
+                        ),
+                        HTSpacing.verticalSM,
+                        HTText.bodySmall(
+                          userType == UserType.family
+                              ? '• You will be charged only for services rendered\n'
+                                  '• Minimum booking is 4 hours\n'
+                                  '• You agree not to hire workers outside the platform\n'
+                                  '• Cancellation policy applies for bookings'
+                              : '• You will receive payments through the app\n'
+                                  '• A service fee of 10-15% applies to each booking\n'
+                                  '• You agree not to work directly with clients\n'
+                                  '• You must attend required training sessions',
+                        ),
+                        HTSpacing.verticalMD,
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: _acceptedTerms,
+                              onChanged: (value) {
+                                setState(() {
+                                  _acceptedTerms = value ?? false;
+                                });
+                              },
+                            ),
+                            Expanded(
+                              child: HTText.bodyMedium(
+                                'I agree to the Terms of Service, Privacy Policy, and Non-Poaching Agreement',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  HTSpacing.verticalLG,
+
+                  // Submit button
+                  HTButton.primary(
+                    label: 'Create Account',
+                    size: ButtonSize.large,
+                    isFullWidth: true,
+                    isLoading: _isLoading,
+                    onPressed: _acceptedTerms ? _handleRegistration : null,
+                  ),
+
+                  HTSpacing.verticalMD,
+
+                  // Switch user type button
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        // Clear form and reset user type
+                        _formKey.currentState?.reset();
+                        ref.read(userTypeProvider.notifier).state = null;
+                        ref.read(workerTypeProvider.notifier).state = null;
+                      },
+                      child: HTText.bodyMedium(
+                        'Change account type',
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+
+                  HTSpacing.verticalMD,
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
