@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_tender/utilities/router/app_router.dart';
 import 'package:home_tender/utilities/theme/app_theme.dart';
-import 'package:home_tender/views/home/home_screen.dart';
 
-class App extends StatefulWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  State<App> createState() => _AppState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the router instance from provider
+    final router = ref.watch(goRouterProvider);
 
-class _AppState extends State<App> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: "Home Tender",
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: HomeScreen(),
+      routerConfig: router,
     );
   }
 }
