@@ -19,6 +19,7 @@ dependencies:
   flutter_native_splash: ^2.4.4
   shared_preferences: ^2.5.3
   iconsax: ^0.0.8
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -27,14 +28,41 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
+  # Assets
   assets:
     - assets/logo/
     - assets/images/
-    - assets/images/onboarding/
+    - assets/onboarding/
+
+  # Fonts
+  fonts:
+    - family: Satoshi
+      fonts:
+        - asset: assets/fonts/Satoshi-Regular.otf
+        - asset: assets/fonts/Satoshi-Italic.otf
+          style: italic
+        - asset: assets/fonts/Satoshi-Light.otf
+          weight: 300
+        - asset: assets/fonts/Satoshi-LightItalic.otf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/Satoshi-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Satoshi-MediumItalic.otf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Satoshi-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Satoshi-BoldItalic.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Satoshi-Black.otf
+          weight: 900
+        - asset: assets/fonts/Satoshi-BlackItalic.otf
+          weight: 900
+          style: italic
 
 flutter_native_splash:
   color: "#FFFFFF"
